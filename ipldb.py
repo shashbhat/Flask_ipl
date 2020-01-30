@@ -15,7 +15,7 @@ def get_team_labels():
     return teamLabels
 
 def get_team_details():
-    teamList = [x for x in collection.find({})
+    teamList = [x for x in collection.find({})]
     return teamList
 
 def get_all_players():
@@ -25,6 +25,6 @@ def get_all_players():
 
 def get_team_players(teamName):
     collection = db.players
-    players = [x['label'] for x in collection.find{("label":teamName)]
+    players = [x['label'] for x in collection.find({"label":teamName})]
     return players
 
