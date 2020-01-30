@@ -2,7 +2,7 @@
 from flask import Flask, jsonify 
 import ipldb as ipldb
 from mongoflask import MongoJSONEncoder
-from flask-cors import CORS
+from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
@@ -24,8 +24,8 @@ def team_names():
 @app.route('/ipl/team/labels')
 def team_labels():
     labels = ipldb.get_team_labels()
-    return jsonify({"Team Label":labels})
+    return jsonify({"label":labels})
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="192.168.137.29", port=5222, debug=True)
