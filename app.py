@@ -28,4 +28,4 @@ def team_labels():
 
 
 if __name__ == "__main__":
-    app.run(host="192.168.137.29", port=5000, debug=True)
+    app.run()
