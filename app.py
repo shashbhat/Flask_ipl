@@ -2,8 +2,11 @@
 from flask import Flask, jsonify 
 import ipldb as ipldb
 from mongoflask import MongoJSONEncoder
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
+
 app.json_encoder = MongoJSONEncoder
 
 
