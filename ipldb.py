@@ -5,12 +5,14 @@ uri = "mongodb+srv://shash:yk2zGXxFJCetmolx@cluster0-i6qpy.mongodb.net/test?retr
 client = MongoClient(uri)
 db = client.ipl2020
 
+
 def get_team_labels():
     collection = db.iplteam
     labelList = []
-    for x in collection.find({},{"_id":0,"label":1}):
+    for x in collection.find({}, {"_id": 0, "label": 1}):
         labelList.append(x["label"])
     return labelList
+
 
 def get_all_team_details():
     collection = db.iplteam
@@ -19,6 +21,7 @@ def get_all_team_details():
         teamList.append(x)
     return teamList
 
+
 def get_all_players():
     collection = db.player
     players = []
@@ -26,61 +29,81 @@ def get_all_players():
         players.append(x)
     return players
 
+
 def get_team_players(teamName):
     collection = db.player
     players = []
-    for x in collection.find({"label":teamName}):
+    for x in collection.find({"label": teamName}):
         players.append(x)
     return players
+
 
 def get_players_role_count_by_team(teamName):
     collection = db.player
     x = collection.aggregate([
-        {"$match":{"label":teamName}},
-        {"$group":{"_id":"$role","count":{"$sum":1}}},
-        {"$project":{"role":"$_id","count":1,"_id":0}}
+        {"$match": {"label": teamName}},
+        {"$group": {"_id": "$role", "count": {"$sum": 1}}},
+        {"$project": {"role": "$_id", "count": 1, "_id": 0}}
     ])
-    return [i for i in x]   
+    return [i for i in x]
+
+
 def get_players_role_count_ipl():
     pass
 # min, max, avg, total salary of the team
+
+
 def get_stat_team(teamname):
     collection = db.player
     res = collection.aggregate([
-        {"$match":{"label":teamname}},
+        {"$match": {"label": teamname}},
         {"$group":
             {
-                "_id":"$label",
-                "total":{"$sum":"$price"},
-                "max":{"$max":"$price"},
-                "min":{"$min":"$price"},
-                "avg":{"$avg":"$price"}
+                "_id": "$label",
+                "total": {"$sum": "$price"},
+                "max": {"$max": "$price"},
+                "min": {"$min": "$price"},
+                "avg": {"$avg": "$price"}
             }
-        },
+         },
     ])
     return [i for i in res]
 # min, max, avg, total salary of the ipl2020
+
+
 def get_stat_ipl():
     collection = db.player
     res = collection.aggregate([
-        {"$group":{"_id":"$label","total":{"$sum":"$price"},"max":{"$max":"$price"},"min":{"$min":"$price"},"avg":{"$avg":"$price"}}},
+        {"$group": {"_id": "$label", "total": {"$sum": "$price"}, "max": {
+            "$max": "$price"}, "min": {"$min": "$price"}, "avg": {"$avg": "$price"}}},
     ])
     return [i for i in res]
 
 
-def get_players_by_role_by_team(role,teamName):
+def get_players_by_role_by_team(role, teamName):
     collection = db.player
-    res = collection.find({"role":role,"label":teamName})
-    return [ x for x in res]
+    res = collection.find({"role": role, "label": teamName})
+    return [x for x in res]
+
 
 def get_all_price():
     collection = db.player
     res = collection.aggregate([
 
-        {"$group":{"_id":"$label", "total":{"$sum":"$price"}}},
-        {"$sort":{"total":-1}},
-      {"$project":{"label":"$_id","total":1, "_id":0}}
+        {"$group": {"_id": "$label", "total": {"$sum": "$price"}}},
+        {"$sort": {"total": -1}},
+        {"$project": {"label": "$_id", "total": 1, "_id": 0}}
 
 
+    ])
+    return [i for i in res]
+
+
+def get_price_byTeam(teamname):
+    collection = db.player
+    res = collection.aggregate([
+
+        {"$group": {"_id": teamname, "total": {"$sum": "$price"}}},
+        {"$project": {"label": "$_id", "total": 1, "_id": 0}}
     ])
     return [i for i in res]
