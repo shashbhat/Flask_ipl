@@ -73,11 +73,11 @@ def get_players_by_role_by_team(role,teamName):
     res = collection.find({"role":role,"label":teamName})
     return [ x for x in res]
 
-def get_price_by_team(teamname):
+def get_all_price(teamname):
     collection = db.player
     res = collection.aggregate([
 
-        {"$group":{"_id":teamname, "total":{"$sum":"$price"}}},
+        {"$group":{"_id":"$label", "total":{"$sum":"$price"}}},
       {"$project":{"label":"$_id","total":1, "_id":0}}
 
     ])
