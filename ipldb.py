@@ -6,7 +6,7 @@ client = MongoClient(url)
 db = client.internship
 collection = db.ipl2020
 
-def get_team_Labels():
+def get_team_labels():
     
     LabelList = []
     for x in collection.find({},{"_id":0,"Label":1}):
