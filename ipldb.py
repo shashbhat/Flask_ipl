@@ -73,7 +73,7 @@ def get_players_by_role_by_team(role,teamName):
     res = collection.find({"role":role,"label":teamName})
     return [ x for x in res]
 
-def get_all_price(teamname):
+def get_all_price():
     collection = db.player
     res = collection.aggregate([
 
