@@ -78,7 +78,9 @@ def get_all_price():
     res = collection.aggregate([
 
         {"$group":{"_id":"$label", "total":{"$sum":"$price"}}},
+        {"$sort":{"total":-1}},
       {"$project":{"label":"$_id","total":1, "_id":0}}
+
 
     ])
     return [i for i in res]
