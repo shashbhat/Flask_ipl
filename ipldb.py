@@ -102,8 +102,8 @@ def get_all_price():
 def get_price_byTeam(teamname):
     collection = db.player
     res = collection.aggregate([
-
-        {"$group": {"_id": teamname, "total": {"$sum": "$price"}}},
-        {"$project": {"label": "$_id", "total": 1, "_id": 0}}
+        {"$match":{"label":teamname}},
+        {"$group":{"_id":"$role","price":{"$sum":"$price"}}},
+        {"$project":{"role":"$_id","price":1,"_id":0}}
     ])
     return [i for i in res]

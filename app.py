@@ -60,7 +60,7 @@ def get_all_price():
 @app.route("/ipl/team/<teamname>/price")
 def get_price_byTeam(teamname):
     price = idb.get_price_byTeam(teamname)
-    return jsonify({"price":price})
+    return jsonify({"stats":price})
 
 if __name__ == "__main__":
     app.run()
